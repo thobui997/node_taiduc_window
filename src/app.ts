@@ -4,6 +4,9 @@ import { ApiError } from './exceptions/apiError';
 import { successResponseHandler, errorResponseHandler } from './config/morgan';
 import { errorConverter, errorHandler } from './exceptions/error';
 
+// routes
+import { AuthRoute } from './api/v1/auth/auth.routes';
+
 const app: Application = express();
 
 // config app
@@ -16,6 +19,7 @@ app.use(errorResponseHandler);
 app.use(cors());
 
 // routes
+app.use('/api/v1/auth', AuthRoute);
 
 // 404 not found
 app.use((req: Request, res: Response, next: NextFunction) => {
