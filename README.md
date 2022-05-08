@@ -23,6 +23,8 @@ Run my project with npm
 To run this project, you will need to add the following environment variables to your .env file
 
 `PORT`
+`MONGO_URI`
+`NODE_ENV`
 
 ## Tech Stack
 
