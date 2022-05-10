@@ -4,6 +4,7 @@ import User from './auth.model';
 import { ApiError } from '../../../exceptions/apiError';
 import { asyncHandler } from './../helpers/async';
 import { signAccessToken } from './../helpers/jwt-service';
+import { ResponseStatus } from './../enums/responseStatus';
 
 const register = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
   const { username, password, confirmPassword } = req.body;
@@ -30,7 +31,7 @@ const register = asyncHandler(async (req: Request, res: Response, next: NextFunc
   await newUser.save();
 
   return res.status(httpStatus.OK).json({
-    status: 'success',
+    status: ResponseStatus.SUCCESS,
   });
 });
 
@@ -52,7 +53,7 @@ const login = asyncHandler(async (req: Request, res: Response, next: NextFunctio
   const accessToken = await signAccessToken(user._id);
 
   return res.status(httpStatus.OK).json({
-    status: 'success',
+    status: ResponseStatus.SUCCESS,
     accessToken,
   });
 });

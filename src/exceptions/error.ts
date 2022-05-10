@@ -3,6 +3,7 @@ import httpStatus from 'http-status';
 import { env } from './../config/configEnv';
 import { ApiError } from './apiError';
 import logger from '../config/logger';
+import { ResponseStatus } from './../api/v1/enums/responseStatus';
 
 const errorConverter = (err: any, req: Request, res: Response, next: NextFunction) => {
   let error = err;
@@ -24,7 +25,7 @@ const errorHandler = (err: any, req: Request, res: Response, next: NextFunction)
   res.locals.errorMessage = err.message;
 
   const response = {
-    status: 'error',
+    status: ResponseStatus.ERROR,
     message,
     ...(env.nodeEnv === 'development' && { stack: err.stack }),
   };
