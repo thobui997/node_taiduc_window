@@ -1,10 +1,12 @@
 import bcryptjs from 'bcryptjs';
-import { model, Schema } from 'mongoose';
+import logger from '../../../config/logger';
+import { model, Schema, Document } from 'mongoose';
 
-interface IUser {
+export interface IUser extends Document {
   username: string;
   password: string;
   confirmPassword?: string;
+  checkValidPassword: (password: string) => Promise<boolean>;
 }
 
 const UserSchema = new Schema<IUser>({
@@ -21,6 +23,14 @@ UserSchema.pre('save', async function (next): Promise<void> {
     next(error);
   }
 });
+
+UserSchema.methods.checkValidPassword = async function (password: string) {
+  try {
+    return await bcryptjs.compare(password, this.password);
+  } catch (error) {
+    logger.info(error);
+  }
+};
 
 const User = model<IUser>('User', UserSchema);
 

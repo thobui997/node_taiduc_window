@@ -7,7 +7,7 @@ import logger from './config/logger';
 connectDB();
 
 try {
-  app.listen(env.port, () => {
+  app.listen(env.port || 5000, () => {
     logger.info(`Application listening on port ${env.port}`);
   });
 } catch (error) {

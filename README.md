@@ -25,6 +25,9 @@ To run this project, you will need to add the following environment variables to
 `PORT`
 `MONGO_URI`
 `NODE_ENV`
+`ACCESS_TOKEN_SECRET`
+`REFRESH_TOKEN_SECRET`
+`EXPIRE_IN_TOKEN`
 
 ## Tech Stack
 
