@@ -16,13 +16,13 @@ const errorConverter = (err: any, req: Request, res: Response, next: NextFunctio
 };
 
 const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
-  let { statusCode, message } = err;
-  if (env.nodeEnv === 'production' && !err.isOperational) {
-    statusCode = httpStatus.INTERNAL_SERVER_ERROR;
-    message = httpStatus[httpStatus.INTERNAL_SERVER_ERROR];
-  }
+  const { statusCode, message } = err;
+  // if (env.nodeEnv === 'production' && !err.isOperational) {
+  //   statusCode = httpStatus.INTERNAL_SERVER_ERROR;
+  //   message = httpStatus[httpStatus.INTERNAL_SERVER_ERROR];
+  // }
 
-  res.locals.errorMessage = err.message;
+  res.locals.errorMessage = message;
 
   const response = {
     status: ResponseStatus.ERROR,
