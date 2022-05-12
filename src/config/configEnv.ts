@@ -11,4 +11,5 @@ export const env = {
   expireInToken: envVars.EXPIRE_IN_TOKEN,
   expireInrRefreshToken: envVars.EXPIRE_IN_REFRESH_TOKEN,
   redisURI: envVars.REDIS_URI,
+  mongoDbName: envVars.MONGO_DB_NAME,
 };

@@ -14,6 +14,7 @@ const connectDB = async () => {
       socketTimeoutMS: 45000,
       serverSelectionTimeoutMS: 5000,
       family: 4,
+      dbName: env.mongoDbName,
     });
 
     logger.info('Connect to database is successfully');
