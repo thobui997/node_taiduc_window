@@ -2,7 +2,11 @@ import { env } from './configEnv';
 import mongoose from 'mongoose';
 import logger from './logger';
 
-export const connectDB = async () => {
+mongoose.connection.on('error', (err) => {
+  logger.error(err);
+});
+
+const connectDB = async () => {
   try {
     await mongoose.connect(env.mongoURI!, {
       autoIndex: false,
@@ -17,3 +21,4 @@ export const connectDB = async () => {
     logger.error(`Connect to database is failed: ${error}`);
   }
 };
+export default connectDB;

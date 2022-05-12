@@ -28,6 +28,7 @@ To run this project, you will need to add the following environment variables to
 `ACCESS_TOKEN_SECRET`
 `REFRESH_TOKEN_SECRET`
 `EXPIRE_IN_TOKEN`
+`REDIS_URI`
 
 ## Tech Stack
 

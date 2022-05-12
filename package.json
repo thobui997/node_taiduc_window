@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon",
+    "start:dev": "nodemon",
     "build": "tsc",
     "lint": "eslint ./src/**/*.ts",
     "formatter": "prettier --config .prettierrc.json --write src/**/*.ts",
@@ -45,6 +45,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.2",
     "morgan": "^1.10.0",
+    "redis": "^4.1.0",
     "winston": "^3.7.2"
   }
 }

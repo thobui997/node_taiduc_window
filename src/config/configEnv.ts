@@ -9,4 +9,6 @@ export const env = {
   accessTokenSecret: envVars.ACCESS_TOKEN_SECRET,
   refreshTokenSecret: envVars.REFRESH_TOKEN_SECRET,
   expireInToken: envVars.EXPIRE_IN_TOKEN,
+  expireInrRefreshToken: envVars.EXPIRE_IN_REFRESH_TOKEN,
+  redisURI: envVars.REDIS_URI,
 };

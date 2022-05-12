@@ -38,7 +38,12 @@ const loginSchema = Joi.object({
   }),
 });
 
+const refreshTokenSchema = Joi.object({
+  refreshToken: Joi.string().trim().required(),
+});
+
 export const authValidators = {
   register: registerSchema,
   login: loginSchema,
+  refreshToken: refreshTokenSchema,
 };
