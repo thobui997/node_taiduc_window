@@ -22,7 +22,7 @@ const verifyAccessToken = (req: Request | any, res: Response, next: NextFunction
     }
 
     req.payLoad = payload;
-    next();
+    return next();
   });
 };
 

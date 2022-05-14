@@ -18,7 +18,7 @@ const register = asyncHandler(async (req: Request, res: Response, next: NextFunc
 
   // check user existed?
   if (user) {
-    return next(new ApiError(httpStatus.BAD_REQUEST, 'Username đã được đăng ký'));
+    return next(new ApiError(httpStatus.BAD_REQUEST, 'username đã được đăng ký'));
   }
 
   // create a new user
@@ -40,7 +40,7 @@ const login = asyncHandler(async (req: Request, res: Response, next: NextFunctio
   // check user has been registered
   const user = await User.findOne({ username });
   if (!user) {
-    return next(new ApiError(httpStatus.UNAUTHORIZED, 'username hoặc password không đúng'));
+    return next(new ApiError(httpStatus.UNAUTHORIZED, 'username chưa được đăng ký'));
   }
 
   // check password
