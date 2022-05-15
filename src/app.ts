@@ -6,6 +6,7 @@ import { errorConverter, errorHandler } from './exceptions/error';
 
 // routes
 import { AuthRoute } from './api/v1/auth/auth.routes';
+import { ProductCategoryRoute } from './api/v1/category/category.routes';
 
 const app: Application = express();
 
@@ -20,6 +21,7 @@ app.use(cors());
 
 // routes
 app.use('/api/v1/auth', AuthRoute);
+app.use('/api/v1/category', ProductCategoryRoute);
 
 // 404 not found
 app.use((req: Request, res: Response, next: NextFunction) => {

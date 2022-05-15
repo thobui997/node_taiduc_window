@@ -9,7 +9,7 @@ mongoose.connection.on('error', (err) => {
 const connectDB = async () => {
   try {
     await mongoose.connect(env.mongoURI!, {
-      autoIndex: false,
+      autoIndex: true,
       maxPoolSize: 10,
       socketTimeoutMS: 45000,
       serverSelectionTimeoutMS: 5000,
