@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { ResponseStatus } from './../enums/responseStatus';
-import { asyncHandler } from './../helpers/async';
+import { ResponseStatus } from '../../enums/responseStatus';
+import { asyncHandler } from '../../helpers/async';
 import ProductCategory from './category.model';
-import { PaginateOptions } from './../constants/paginateOptions';
-import { ApiError } from './../../../exceptions/apiError';
+import { PaginateOptions } from '../../constants/paginateOptions';
+import { ApiError } from '../../exceptions/apiError';
 
 const create = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
   const { name } = req.body;

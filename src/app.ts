@@ -5,8 +5,8 @@ import { successResponseHandler, errorResponseHandler } from './config/morgan';
 import { errorConverter, errorHandler } from './exceptions/error';
 
 // routes
-import { AuthRoute } from './api/v1/auth/auth.routes';
-import { ProductCategoryRoute } from './api/v1/category/category.routes';
+import { AuthRoute } from './api/auth/auth.routes';
+import { ProductCategoryRoute } from './api/category/category.routes';
 
 const app: Application = express();
 

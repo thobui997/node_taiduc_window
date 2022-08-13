@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { ApiError } from '../../../exceptions/apiError';
-import { ResponseStatus } from './../enums/responseStatus';
-import { asyncHandler } from './../helpers/async';
-import { signAccessToken, signRefreshToken } from './../helpers/jwt-service';
+import { ApiError } from '../../exceptions/apiError';
+import { ResponseStatus } from '../../enums/responseStatus';
+import { asyncHandler } from '../../helpers/async';
+import { signAccessToken, signRefreshToken } from '../../helpers/jwt-service';
 import User from './auth.model';
-import client from '../../../config/connect-redis';
+import client from '../../config/connect-redis';
 
 const register = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
   const { username, password, confirmPassword } = req.body;

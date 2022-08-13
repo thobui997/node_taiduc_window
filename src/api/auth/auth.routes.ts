@@ -1,6 +1,6 @@
 import express from 'express';
-import { validateRequest } from './../middleware/validateRequest';
-import verifyRefreshToken from './../middleware/verifyRefreshToken';
+import { validateRequest } from '../../middleware/validateRequest';
+import verifyRefreshToken from '../../middleware/verifyRefreshToken';
 import { auth } from './auth.controller';
 import { authValidators } from './auth.validation';
 

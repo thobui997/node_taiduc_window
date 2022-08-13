@@ -1,9 +1,9 @@
 import { NextFunction, Response } from 'express';
 import httpStatus from 'http-status';
 import { verify } from 'jsonwebtoken';
-import { env } from '../../../config/configEnv';
-import client from '../../../config/connect-redis';
-import { ApiError } from './../../../exceptions/apiError';
+import { env } from '../config/configEnv';
+import client from '../config/connect-redis';
+import { ApiError } from '../exceptions/apiError';
 
 const verifyRefreshToken = (req: any, res: Response, next: NextFunction) => {
   const { refreshToken } = req.body;

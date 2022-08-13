@@ -3,7 +3,7 @@ import httpStatus from 'http-status';
 import { env } from './../config/configEnv';
 import { ApiError } from './apiError';
 import logger from '../config/logger';
-import { ResponseStatus } from './../api/v1/enums/responseStatus';
+import { ResponseStatus } from '../enums/responseStatus';
 
 const errorConverter = (err: any, req: Request, res: Response, next: NextFunction) => {
   let error = err;

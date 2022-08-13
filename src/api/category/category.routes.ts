@@ -1,6 +1,6 @@
 import express from 'express';
-import { validateRequest } from './../middleware/validateRequest';
-import verifyAccessToken from './../middleware/verifyAccessToken';
+import { validateRequest } from '../../middleware/validateRequest';
+import verifyAccessToken from '../../middleware/verifyAccessToken';
 import productCategoryValidators from './category.validation';
 import { productCategory } from './category.controller';
 

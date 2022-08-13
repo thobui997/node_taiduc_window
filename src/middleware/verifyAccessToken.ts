@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { verify } from 'jsonwebtoken';
-import { env } from './../../../config/configEnv';
-import { ApiError } from './../../../exceptions/apiError';
+import { env } from '../config/configEnv';
+import { ApiError } from '../exceptions/apiError';
 
 const verifyAccessToken = (req: Request | any, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;

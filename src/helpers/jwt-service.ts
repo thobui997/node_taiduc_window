@@ -1,6 +1,6 @@
 import { sign } from 'jsonwebtoken';
-import { env } from './../../../config/configEnv';
-import client from './../../../config/connect-redis';
+import { env } from '../config/configEnv';
+import client from '../config/connect-redis';
 
 const signAccessToken = (userId: string) => {
   return new Promise((resolve, reject) => {
