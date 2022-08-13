@@ -1,14 +1,15 @@
 import { createClient } from 'redis';
-import logger from './logger';
 import { env } from './configEnv';
+import logger from './logger';
 
 const client = createClient({
   url: env.redisURI,
 });
 
-client.on('error', (err) => logger.error('Redis Client Error: ' + err));
-client.on('connect', () => logger.info('Redis Client connected'));
-client.on('ready', () => logger.info('Redis Client ready'));
+client.on('ready', () => logger.info('Redis client ready'));
+client.on('connect', () => logger.info('Redis client connected'));
+client.on('error', (err) => logger.error('Redis client error: ' + err));
+client.on('reconnecting', () => logger.info('Redis client is reconnecting'));
 
 export const connectRedis = async () => {
   try {

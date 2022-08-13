@@ -21,20 +21,13 @@ const signRefreshToken = (userId: any) => {
       userId,
     };
 
-    sign(
-      payload,
-      env.refreshTokenSecret!,
-      { expiresIn: env.expireInrRefreshToken! },
-      (err, token) => {
-        if (err) {
-          return reject(err);
-        }
-        client
-          .set(userId.toString(), token!, { EX: 365 * 24 * 60 * 60 })
-          .then(() => resolve(token))
-          .catch((err) => reject(err));
-      }
-    );
+    sign(payload, env.refreshTokenSecret!, { expiresIn: env.expireInrRefreshToken! }, (err, token) => {
+      if (err) return reject(err);
+      client
+        .set(userId.toString(), token!, { EX: 365 * 24 * 60 * 60 })
+        .then(() => resolve(token))
+        .catch((err) => reject(err));
+    });
   });
 };
 
