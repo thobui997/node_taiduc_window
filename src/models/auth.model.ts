@@ -1,5 +1,5 @@
 import bcryptjs from 'bcryptjs';
-import logger from '../../config/logger';
+import logger from '../config/logger';
 import { model, Schema, Document } from 'mongoose';
 
 export interface IUser extends Document {

@@ -1,4 +1,4 @@
-import { ApiError } from '../../exceptions/apiError';
+import { ApiError } from '../exceptions/api-error';
 import { Document, model, ObjectId, Schema } from 'mongoose';
 import httpStatus from 'http-status';
 

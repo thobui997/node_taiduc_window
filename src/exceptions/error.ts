@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { env } from './../config/configEnv';
-import { ApiError } from './apiError';
+import { env } from '../config/config-env';
+import { ApiError } from './api-error';
 import logger from '../config/logger';
-import { ResponseStatus } from '../enums/responseStatus';
+import { ResponseStatus } from '../enums/response-status';
 
 const errorConverter = (err: any, req: Request, res: Response, next: NextFunction) => {
   let error = err;

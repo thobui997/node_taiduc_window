@@ -1,4 +1,4 @@
-import { ApiError } from '../exceptions/apiError';
+import { ApiError } from '../exceptions/api-error';
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import Joi from 'joi';

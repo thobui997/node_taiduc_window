@@ -1,12 +1,11 @@
-import express, { Application, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-import { ApiError } from './exceptions/apiError';
-import { successResponseHandler, errorResponseHandler } from './config/morgan';
+import express, { Application, NextFunction, Request, Response } from 'express';
+import { errorResponseHandler, successResponseHandler } from './config/morgan';
+import { ApiError } from './exceptions/api-error';
 import { errorConverter, errorHandler } from './exceptions/error';
 
 // routes
-import { AuthRoute } from './api/auth/auth.routes';
-import { ProductCategoryRoute } from './api/category/category.routes';
+import { AuthRoute, ProductCategoryRoute } from 'routes';
 
 const app: Application = express();
 

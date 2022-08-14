@@ -1,8 +1,8 @@
 import express from 'express';
-import { validateRequest } from '../../middleware/validateRequest';
-import verifyAccessToken from '../../middleware/verifyAccessToken';
-import productCategoryValidators from './category.validation';
-import { productCategory } from './category.controller';
+import { validateRequest } from '../middleware/validate-request';
+import verifyAccessToken from '../middleware/verify-access-token';
+import productCategoryValidators from '../validations/category.validation';
+import { productCategory } from '../controllers/category.controller';
 
 const route = express.Router();
 
@@ -19,4 +19,4 @@ route.get('/', productCategory.getCategories);
 route.get('/:id', productCategory.getCategoryById);
 route.delete('/:id', verifyAccessToken, productCategory.deleteById);
 
-export { route as ProductCategoryRoute };
+export default route;

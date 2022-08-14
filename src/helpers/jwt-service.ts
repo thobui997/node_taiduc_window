@@ -1,6 +1,5 @@
 import { sign } from 'jsonwebtoken';
-import { env } from '../config/configEnv';
-import client from '../config/connect-redis';
+import { env } from '../config/config-env';
 
 const signAccessToken = (userId: string) => {
   return new Promise((resolve, reject) => {
@@ -8,7 +7,7 @@ const signAccessToken = (userId: string) => {
       userId,
     };
 
-    sign(payload, env.accessTokenSecret!, { expiresIn: env.expireInToken! }, (err, token) => {
+    sign(payload, env.accessTokenSecret, { expiresIn: env.expireInToken }, (err, token) => {
       if (err) reject(err);
       resolve(token);
     });
@@ -21,12 +20,12 @@ const signRefreshToken = (userId: any) => {
       userId,
     };
 
-    sign(payload, env.refreshTokenSecret!, { expiresIn: env.expireInrRefreshToken! }, (err, token) => {
+    sign(payload, env.refreshTokenSecret, { expiresIn: env.expireInrRefreshToken }, (err, token) => {
       if (err) return reject(err);
-      client
-        .set(userId.toString(), token!, { EX: 365 * 24 * 60 * 60 })
-        .then(() => resolve(token))
-        .catch((err) => reject(err));
+      // client
+      //   .set(userId.toString(), token!, { EX: 365 * 24 * 60 * 60 })
+      //   .then(() => resolve(token))
+      //   .catch((err) => reject(err));
     });
   });
 };

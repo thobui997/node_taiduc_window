@@ -1,11 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { ApiError } from '../../exceptions/apiError';
-import { ResponseStatus } from '../../enums/responseStatus';
-import { asyncHandler } from '../../helpers/async';
-import { signAccessToken, signRefreshToken } from '../../helpers/jwt-service';
-import User from './auth.model';
-import client from '../../config/connect-redis';
+import { ApiError } from '../exceptions/api-error';
+import { ResponseStatus } from '../enums/response-status';
+import { asyncHandler } from '../helpers/async';
+import { signAccessToken, signRefreshToken } from '../helpers/jwt-service';
+import User from '../models/auth.model';
 
 const register = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
   const { username, password, confirmPassword } = req.body;
@@ -60,11 +59,11 @@ const login = asyncHandler(async (req: Request, res: Response, next: NextFunctio
 });
 
 const logout = asyncHandler((req: Request | any, res: Response, next: NextFunction) => {
-  const { userId } = req.payload;
-  client
-    .del(userId.toString())
-    .then(() => res.status(httpStatus.OK).json({ status: ResponseStatus.SUCCESS }))
-    .catch((err) => next(err));
+  // const { userId } = req.payload;
+  // // client
+  // //   .del(userId.toString())
+  // //   .then(() => res.status(httpStatus.OK).json({ status: ResponseStatus.SUCCESS }))
+  // //   .catch((err) => next(err));
 });
 
 const refreshToken = asyncHandler(async (req: Request | any, res: Response, next: NextFunction) => {

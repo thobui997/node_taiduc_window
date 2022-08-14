@@ -1,4 +1,4 @@
-import { env } from './configEnv';
+import { env } from './config-env';
 import mongoose from 'mongoose';
 import logger from './logger';
 
@@ -8,7 +8,7 @@ mongoose.connection.on('error', (err) => {
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(env.mongoURI!, {
+    await mongoose.connect(env.mongoURI, {
       autoIndex: true,
       maxPoolSize: 10,
       socketTimeoutMS: 45000,
