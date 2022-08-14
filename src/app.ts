@@ -1,11 +1,13 @@
 import cors from 'cors';
 import express, { Application, NextFunction, Request, Response } from 'express';
+import { serve, setup } from 'swagger-ui-express';
 import { errorResponseHandler, successResponseHandler } from './config/morgan';
+import { docs } from './docs';
 import { ApiError } from './exceptions/api-error';
 import { errorConverter, errorHandler } from './exceptions/error';
 
 // routes
-import { AuthRoute, ProductCategoryRoute } from 'routes';
+import { AuthRoute, ProductCategoryRoute } from './routes';
 
 const app: Application = express();
 
@@ -14,6 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(successResponseHandler);
 app.use(errorResponseHandler);
+app.use('/api-docs', serve, setup(docs));
 
 // enable cors
 app.use(cors());

@@ -1,8 +1,7 @@
 import express from 'express';
-import { validateRequest } from '../middleware/validate-request';
-import verifyAccessToken from '../middleware/verify-access-token';
-import productCategoryValidators from '../validations/category.validation';
+import { validateRequest, verifyAccessToken } from '../middleware';
 import { productCategory } from '../controllers/category.controller';
+import productCategoryValidators from '../validations/category.validation';
 
 const route = express.Router();
 

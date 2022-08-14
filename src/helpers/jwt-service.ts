@@ -1,4 +1,6 @@
+import logger from '../config/logger';
 import { sign } from 'jsonwebtoken';
+import RefreshToKen from '../models/refresh-token.model';
 import { env } from '../config/config-env';
 
 const signAccessToken = (userId: string) => {
@@ -20,12 +22,15 @@ const signRefreshToken = (userId: any) => {
       userId,
     };
 
-    sign(payload, env.refreshTokenSecret, { expiresIn: env.expireInrRefreshToken }, (err, token) => {
+    sign(payload, env.refreshTokenSecret, { expiresIn: env.expireInrRefreshToken }, async (err, token) => {
       if (err) return reject(err);
-      // client
-      //   .set(userId.toString(), token!, { EX: 365 * 24 * 60 * 60 })
-      //   .then(() => resolve(token))
-      //   .catch((err) => reject(err));
+      try {
+        const refreshToken = new RefreshToKen({ userId, token });
+        await refreshToken.save();
+        resolve(token);
+      } catch (error) {
+        logger.error(error);
+      }
     });
   });
 };

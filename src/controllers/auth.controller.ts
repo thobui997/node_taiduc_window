@@ -1,10 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { ApiError } from '../exceptions/api-error';
 import { ResponseStatus } from '../enums/response-status';
-import { asyncHandler } from '../helpers/async';
-import { signAccessToken, signRefreshToken } from '../helpers/jwt-service';
+import { ApiError } from '../exceptions/api-error';
+import { asyncHandler, responseBody, signAccessToken, signRefreshToken } from '../helpers';
 import User from '../models/auth.model';
+import RefreshToKen from '../models/refresh-token.model';
+
+const SUCCESS = ResponseStatus.SUCCESS;
 
 const register = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
   const { username, password, confirmPassword } = req.body;
@@ -28,9 +30,7 @@ const register = asyncHandler(async (req: Request, res: Response, next: NextFunc
 
   await newUser.save();
 
-  return res.status(httpStatus.OK).json({
-    status: ResponseStatus.SUCCESS,
-  });
+  return res.status(httpStatus.OK).json(responseBody(SUCCESS));
 });
 
 const login = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
@@ -51,19 +51,20 @@ const login = asyncHandler(async (req: Request, res: Response, next: NextFunctio
   const accessToken = await signAccessToken(user._id);
   const refreshToken = await signRefreshToken(user._id);
 
-  return res.status(httpStatus.OK).json({
-    status: ResponseStatus.SUCCESS,
-    accessToken,
-    refreshToken,
-  });
+  return res.status(httpStatus.OK).json(
+    responseBody(SUCCESS, {
+      accessToken,
+      refreshToken,
+    })
+  );
 });
 
-const logout = asyncHandler((req: Request | any, res: Response, next: NextFunction) => {
-  // const { userId } = req.payload;
-  // // client
-  // //   .del(userId.toString())
-  // //   .then(() => res.status(httpStatus.OK).json({ status: ResponseStatus.SUCCESS }))
-  // //   .catch((err) => next(err));
+const logout = asyncHandler(async (req: Request | any, res: Response, next: NextFunction) => {
+  const { userId } = req.payload;
+  const token = await RefreshToKen.findOneAndDelete({ userId });
+  if (!token) return next(new ApiError(httpStatus.BAD_REQUEST, 'đăng xuất thất bại'));
+
+  return res.status(httpStatus.OK).json(responseBody(SUCCESS));
 });
 
 const refreshToken = asyncHandler(async (req: Request | any, res: Response, next: NextFunction) => {
@@ -72,11 +73,12 @@ const refreshToken = asyncHandler(async (req: Request | any, res: Response, next
     const newAccessToken = await signAccessToken(userId);
     const newRefreshToken = await signRefreshToken(userId);
 
-    res.status(httpStatus.OK).json({
-      status: ResponseStatus.SUCCESS,
-      accessToken: newAccessToken,
-      refreshToken: newRefreshToken,
-    });
+    res.status(httpStatus.OK).json(
+      responseBody(SUCCESS, {
+        newAccessToken,
+        newRefreshToken,
+      })
+    );
   } catch (error) {
     return next(error);
   }
