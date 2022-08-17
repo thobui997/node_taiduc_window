@@ -14,15 +14,14 @@ const verifyAccessToken = (req: Request | any, res: Response, next: NextFunction
 
   // verify token
   verify(token, env.accessTokenSecret, undefined, (err, payload) => {
-    if (err) {
-      if (err.name === 'JsonWebTokenError') {
-        return next(new ApiError(httpStatus.UNAUTHORIZED, 'Unauthorized Access'));
-      }
-      return next(new ApiError(httpStatus.UNAUTHORIZED, err.message));
+    if (!err) {
+      req.payLoad = payload;
+      return next();
     }
-
-    req.payLoad = payload;
-    return next();
+    if (err.name === 'JsonWebTokenError') {
+      return next(new ApiError(httpStatus.UNAUTHORIZED, 'Unauthorized Access'));
+    }
+    return next(new ApiError(httpStatus.UNAUTHORIZED, err.message));
   });
 };
 

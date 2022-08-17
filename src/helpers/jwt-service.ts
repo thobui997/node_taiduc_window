@@ -1,9 +1,7 @@
-import logger from '../config/logger';
 import { sign } from 'jsonwebtoken';
-import RefreshToKen from '../models/refresh-token.model';
 import { env } from '../config/config-env';
 
-const signAccessToken = (userId: string) => {
+const signAccessToken = (userId: string): Promise<string> => {
   return new Promise((resolve, reject) => {
     const payload = {
       userId,
@@ -11,26 +9,20 @@ const signAccessToken = (userId: string) => {
 
     sign(payload, env.accessTokenSecret, { expiresIn: env.expireInToken }, (err, token) => {
       if (err) reject(err);
-      resolve(token);
+      resolve(token as string);
     });
   });
 };
 
-const signRefreshToken = (userId: any) => {
+const signRefreshToken = (userId: any): Promise<string> => {
   return new Promise((resolve, reject) => {
     const payload = {
       userId,
     };
 
-    sign(payload, env.refreshTokenSecret, { expiresIn: env.expireInrRefreshToken }, async (err, token) => {
-      if (err) return reject(err);
-      try {
-        const refreshToken = new RefreshToKen({ userId, token });
-        await refreshToken.save();
-        resolve(token);
-      } catch (error) {
-        logger.error(error);
-      }
+    sign(payload, env.refreshTokenSecret, { expiresIn: env.expireInrRefreshToken }, (err, token) => {
+      if (err) reject(err);
+      resolve(token as string);
     });
   });
 };

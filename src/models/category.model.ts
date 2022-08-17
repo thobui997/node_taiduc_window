@@ -31,6 +31,6 @@ ProductCategorySchema.post('updateOne', function (error: any, doc: any, next: an
   checkDuplicateName(error, next);
 });
 
-const ProductCategory = model<IProductCategory>('ProductCategory', ProductCategorySchema);
+const ProductCategory = model<IProductCategory>('Product_Category', ProductCategorySchema);
 
 export default ProductCategory;

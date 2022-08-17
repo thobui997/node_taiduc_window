@@ -5,6 +5,7 @@ import { model, Schema, Document } from 'mongoose';
 export interface IUser extends Document {
   username: string;
   password: string;
+  refreshToken: string;
   confirmPassword?: string;
   checkValidPassword: (password: string) => Promise<boolean>;
 }
@@ -12,6 +13,7 @@ export interface IUser extends Document {
 const UserSchema = new Schema<IUser>({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  refreshToken: { type: String, default: '' },
 });
 
 UserSchema.pre('save', async function (next): Promise<void> {
@@ -26,7 +28,7 @@ UserSchema.pre('save', async function (next): Promise<void> {
 
 UserSchema.methods.checkValidPassword = async function (password: string) {
   try {
-    return await bcryptjs.compare(password, this.password);
+    return bcryptjs.compare(password, this.password);
   } catch (error) {
     logger.info(error);
   }

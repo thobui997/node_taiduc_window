@@ -1,3 +1,4 @@
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express, { Application, NextFunction, Request, Response } from 'express';
 import { serve, setup } from 'swagger-ui-express';
@@ -6,7 +7,7 @@ import { docs } from './docs';
 import { ApiError } from './exceptions/api-error';
 import { errorConverter, errorHandler } from './exceptions/error';
 
-// routes
+// import routes
 import { AuthRoute, ProductCategoryRoute } from './routes';
 
 const app: Application = express();
@@ -20,6 +21,9 @@ app.use('/api-docs', serve, setup(docs));
 
 // enable cors
 app.use(cors());
+
+// setup cookie
+app.use(cookieParser());
 
 // routes
 app.use('/api/v1/auth', AuthRoute);
