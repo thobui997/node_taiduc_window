@@ -8,6 +8,6 @@ const route = express.Router();
 route.post('/register', validateRequest(authValidators.register), auth.register);
 route.post('/login', validateRequest(authValidators.login), auth.login);
 route.post('/refresh', auth.refresh);
-route.delete('/logout', auth.logout);
+route.post('/logout', auth.logout);
 
 export default route;

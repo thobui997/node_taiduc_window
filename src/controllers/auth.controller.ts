@@ -62,7 +62,12 @@ const login = asyncHandler(async (req: Request, res: Response, next: NextFunctio
 
   await foundUser.updateOne({ refreshToken }).exec();
 
-  res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'none', maxAge: 24 * 60 * 60 * 1000 });
+  res.cookie('jwt', refreshToken, {
+    httpOnly: true,
+    sameSite: 'none',
+    secure: env.nodeEnv === 'production',
+    maxAge: 24 * 60 * 60 * 1000,
+  });
 
   return res.status(httpStatus.OK).json(
     responseBody(SUCCESS, {
@@ -81,13 +86,13 @@ const logout = asyncHandler(async (req: Request | any, res: Response, next: Next
   const foundUser = await User.findOne({ refreshToken }).exec();
 
   if (!foundUser) {
-    res.clearCookie('jwt', { httpOnly: true, sameSite: 'none', secure: true });
+    res.clearCookie('jwt', { httpOnly: true, sameSite: 'none', secure: env.nodeEnv === 'production' });
     return res.sendStatus(204);
   }
 
   // delete refresh token in db
   await foundUser.updateOne({ refreshToken: '' }).exec();
-  res.clearCookie('jwt', { httpOnly: true, sameSite: 'none', secure: true });
+  res.clearCookie('jwt', { httpOnly: true, sameSite: 'none', secure: env.nodeEnv === 'production' });
   return res.sendStatus(204);
 });
 
