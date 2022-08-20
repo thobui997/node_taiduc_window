@@ -1,21 +1,21 @@
-export const login = {
+const register = {
   post: {
     tags: ['Auth'],
-    description: 'Login by account',
-    operationId: 'login',
+    description: 'Register an account',
+    operationId: 'register',
     parameters: [],
     requestBody: {
       content: {
         'application/json': {
           schema: {
-            $ref: '#/components/schemas/UserLoginInput',
+            $ref: '#/components/schemas/UserRegisterInput',
           },
         },
       },
     },
     responses: {
       200: {
-        description: 'Login successfully',
+        description: 'Account created successfully',
       },
       400: {
         description: 'Bad request',
@@ -26,3 +26,5 @@ export const login = {
     },
   },
 };
+
+export default register;

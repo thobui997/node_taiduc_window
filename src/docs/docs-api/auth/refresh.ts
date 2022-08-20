@@ -1,4 +1,4 @@
-export const refresh = {
+const refresh = {
   post: {
     tags: ['Auth'],
     description: 'Create a new access token when token expired',
@@ -18,3 +18,5 @@ export const refresh = {
     },
   },
 };
+
+export default refresh;

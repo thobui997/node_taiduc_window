@@ -5,17 +5,15 @@ import productCategoryValidators from '../validations/category.validation';
 
 const route = express.Router();
 
-route.post('/', validateRequest(productCategoryValidators.productCategory), verifyAccessToken, productCategory.create);
+route
+  .route('/')
+  .get(productCategory.getCategories)
+  .post(validateRequest(productCategoryValidators.productCategory), verifyAccessToken, productCategory.create);
 
-route.put(
-  '/:id',
-  validateRequest(productCategoryValidators.productCategory),
-  verifyAccessToken,
-  productCategory.updateById
-);
-
-route.get('/', productCategory.getCategories);
-route.get('/:id', productCategory.getCategoryById);
-route.delete('/:id', verifyAccessToken, productCategory.deleteById);
+route
+  .route('/:id')
+  .get(productCategory.getCategoryById)
+  .put(validateRequest(productCategoryValidators.productCategory), verifyAccessToken, productCategory.update)
+  .delete(verifyAccessToken, productCategory.deleteById);
 
 export default route;

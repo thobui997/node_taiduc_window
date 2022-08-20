@@ -1,4 +1,4 @@
-export const logout = {
+const logout = {
   post: {
     tags: ['Auth'],
     description: 'Logout user',
@@ -18,3 +18,4 @@ export const logout = {
     },
   },
 };
+export default logout;

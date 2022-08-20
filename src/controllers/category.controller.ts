@@ -3,64 +3,78 @@ import httpStatus from 'http-status';
 import { PaginateOptions } from '../constants/paginate-options';
 import { ResponseStatus } from '../enums/response-status';
 import { ApiError } from '../exceptions/api-error';
-import { asyncHandler } from '../helpers';
+import { asyncHandler, responseBody } from '../helpers';
 import { ProductCategory } from '../models';
 
+const SUCCESS = ResponseStatus.SUCCESS;
+
+/**
+ * @desc create a new category
+ * @route private /ap1/v1/category
+ */
 const create = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
   const { name } = req.body;
 
   await ProductCategory.create({ name });
 
-  return res.status(httpStatus.OK).json({
-    status: ResponseStatus.SUCCESS,
-  });
+  return res.status(httpStatus.OK).json(responseBody(SUCCESS));
 });
 
-const updateById = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+/**
+ * @desc update a category
+ * @route private /ap1/v1/category/:id
+ */
+const update = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
   const { name } = req.body;
 
-  const category = await ProductCategory.updateOne({ _id: id }, { name });
+  const category = await ProductCategory.updateOne({ _id: id }, { name }).exec();
   if (!category) return next(new ApiError(httpStatus.BAD_REQUEST, 'tên danh mục không tồn tại'));
 
-  return res.status(httpStatus.OK).json({ status: ResponseStatus.SUCCESS });
+  return res.status(httpStatus.OK).json(responseBody(SUCCESS));
 });
 
+/**
+ * @desc get list all categories
+ * @route public /ap1/v1/category
+ */
 const getCategories = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
   const { size = PaginateOptions.SIZE, page = PaginateOptions.PAGE } = req.query;
 
   const categories = await ProductCategory.find()
-    .select('name createdAt updatedAt')
+    .select('name products createdAt updatedAt')
     .limit(+size)
     .skip((+page - 1) * +size)
     .exec();
 
   const totalItems = await ProductCategory.count();
 
-  return res.status(httpStatus.OK).json({
-    status: ResponseStatus.SUCCESS,
-    categories,
-    totalItems,
-    currentPage: +page,
-    totalPages: Math.ceil(totalItems / +size),
-  });
+  const pagination = { totalItems, currentPage: +page, totalPages: Math.ceil(totalItems / +size) };
+
+  return res.status(httpStatus.OK).json(responseBody(SUCCESS, categories, pagination));
 });
 
+/**
+ * @desc get a category
+ * @route public /ap1/v1/category/:id
+ */
 const getCategoryById = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
 
-  // find category in db
-  const category = await ProductCategory.findById(id).select('name createdAt updatedAt');
+  const category = await ProductCategory.findById(id).select('name createdAt updatedAt').exec();
   if (!category) return next(new ApiError(httpStatus.BAD_REQUEST, 'tên danh mục không tồn tại'));
 
-  return res.status(httpStatus.OK).json({ status: ResponseStatus.SUCCESS, category });
+  return res.status(httpStatus.OK).json(responseBody(SUCCESS, category));
 });
 
+/**
+ * @desc delete a category
+ * @route private /ap1/v1/category/:id
+ */
 const deleteById = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
 
-  // find category in db
-  const category = await ProductCategory.findByIdAndDelete(id);
+  const category = await ProductCategory.findByIdAndDelete(id).exec();
   if (!category) return next(new ApiError(httpStatus.BAD_REQUEST, 'tên danh mục không tồn tại'));
 
   return res.status(httpStatus.OK).json({ status: ResponseStatus.SUCCESS });
@@ -68,7 +82,7 @@ const deleteById = asyncHandler(async (req: Request, res: Response, next: NextFu
 
 export const productCategory = {
   create,
-  updateById,
+  update,
   getCategories,
   getCategoryById,
   deleteById,

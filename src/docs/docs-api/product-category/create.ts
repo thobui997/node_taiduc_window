@@ -1,21 +1,22 @@
-export const register = {
+const create = {
   post: {
-    tags: ['Auth'],
-    description: 'Register an account',
-    operationId: 'register',
+    tags: ['Product Category'],
+    description: 'Create a new category',
+    operationId: 'create-category',
+    security: [{ BearerAuth: ['admin'] }],
     parameters: [],
     requestBody: {
       content: {
         'application/json': {
           schema: {
-            $ref: '#/components/schemas/UserRegisterInput',
+            $ref: '#/components/schemas/ProductCategoryInput',
           },
         },
       },
     },
     responses: {
       200: {
-        description: 'Account created successfully',
+        description: 'Create successfully',
       },
       400: {
         description: 'Bad request',
@@ -26,3 +27,4 @@ export const register = {
     },
   },
 };
+export default create;
