@@ -42,12 +42,12 @@ const getCategories = asyncHandler(async (req: Request, res: Response, next: Nex
   const { size = PaginateOptions.SIZE, page = PaginateOptions.PAGE } = req.query;
 
   const categories = await ProductCategory.find()
-    .select('name products createdAt updatedAt')
+    .select('name createdAt updatedAt')
     .limit(+size)
     .skip((+page - 1) * +size)
     .exec();
 
-  const totalItems = await ProductCategory.count();
+  const totalItems = await ProductCategory.count().exec();
 
   const pagination = { totalItems, currentPage: +page, totalPages: Math.ceil(totalItems / +size) };
 
@@ -74,8 +74,10 @@ const getCategoryById = asyncHandler(async (req: Request, res: Response, next: N
 const deleteById = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
 
-  const category = await ProductCategory.findByIdAndDelete(id).exec();
-  if (!category) return next(new ApiError(httpStatus.BAD_REQUEST, 'tên danh mục không tồn tại'));
+  const foundCategory = await ProductCategory.findById(id).exec();
+  if (!foundCategory) return next(new ApiError(httpStatus.BAD_REQUEST, 'tên danh mục không tồn tại'));
+
+  await foundCategory.deleteOne();
 
   return res.status(httpStatus.OK).json({ status: ResponseStatus.SUCCESS });
 });

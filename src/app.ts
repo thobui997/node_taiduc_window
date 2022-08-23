@@ -8,7 +8,7 @@ import { ApiError } from './exceptions/api-error';
 import { errorConverter, errorHandler } from './exceptions/error';
 
 // import routes
-import { AuthRoute, ProductCategoryRoute } from './routes';
+import { AuthRoute, ProductCategoryRoute, Product } from './routes';
 
 const app: Application = express();
 
@@ -28,6 +28,7 @@ app.use(cookieParser());
 // routes
 app.use('/api/v1/auth', AuthRoute);
 app.use('/api/v1/category', ProductCategoryRoute);
+app.use('/api/v1/product', Product);
 
 // 404 not found
 app.use((req: Request, res: Response, next: NextFunction) => {
